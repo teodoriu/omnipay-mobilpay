@@ -1,0 +1,37 @@
+{
+  "name": "teodoriu/omnipay-mobilpay",
+  "description": "MobilPay driver for the Omnipay PHP payment processing library",
+  "keywords": [
+    "mobilpay",
+    "gateway",
+    "merchant",
+    "omnipay",
+    "pay",
+    "payment",
+    "purchase"
+  ],
+  "homepage": "https://github.com/teodoriu/omnipay-mobilpay",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Teodor B",
+      "email": "teodoriu@pm.me"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "omnipay/common": "~3.0",
+    "php-http/guzzle6-adapter": "~2",
+    "ext-dom": "*",
+    "ext-simplexml": "*"
+  },
+  "require-dev": {
+    "omnipay/tests": "~3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\MobilPay\\": "src/Mobilpay"
+    }
+  },
+  "minimum-stability": "dev"
+}
