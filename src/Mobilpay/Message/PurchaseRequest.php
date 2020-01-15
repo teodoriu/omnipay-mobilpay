@@ -241,17 +241,16 @@ class PurchaseRequest extends AbstractRequest
     /**
      * @return string
      */
-    public function getEndpointSuffix()
+    public function getLanguage()
     {
-        return $this->getParameter('endpointSuffix');
+        return $this->getParameter('language');
     }
 
     /**
      * @param  string  $value
      */
-    public function setEndpointSuffix($value)
     {
-        $this->setParameter('endpointSuffix', $value);
+        $this->setParameter('language', $value);
     }
 
     /**
@@ -354,7 +353,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $endpoint = $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
 
-        return $this->getEndpointSuffix() === null ? $endpoint : $endpoint.'/'.$this->getEndpointSuffix();
+        return $this->getLanguage() === null ? $endpoint : $endpoint.'/'.$this->getLanguage();
     }
 
     /**
