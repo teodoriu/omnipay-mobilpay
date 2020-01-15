@@ -249,6 +249,7 @@ class PurchaseRequest extends AbstractRequest
     /**
      * @param  string  $value
      */
+    public function setLanguage($value)
     {
         $this->setParameter('language', $value);
     }
