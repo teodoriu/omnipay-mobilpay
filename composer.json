@@ -26,7 +26,7 @@
     "ext-simplexml": "*"
   },
   "require-dev": {
-    "omnipay/tests": "~3.0"
+    "omnipay/tests": "3.1.1"
   },
   "autoload": {
     "psr-4": {
