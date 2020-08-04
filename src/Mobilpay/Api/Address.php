@@ -11,6 +11,7 @@ namespace Omnipay\MobilPay\Api;
 
 use DOMDocument;
 use DOMNode;
+use Exception;
 
 class Address
 {
@@ -105,9 +106,16 @@ class Address
         }
     }
 
+    /**
+     * @param  \DOMDocument  $xmlDoc
+     * @param $nodeName
+     *
+     * @return \DOMElement
+     * @throws \Exception
+     */
     public function createXmlElement(DOMDocument $xmlDoc, $nodeName)
     {
-        if (! ($xmlDoc instanceof DOMDocument)) {
+        if ( ! ($xmlDoc instanceof DOMDocument)) {
             throw new Exception('', self::ERROR_INVALID_PARAMETER);
         }
 
@@ -119,7 +127,7 @@ class Address
             throw new Exception('Invalid address type', self::ERROR_INVALID_ADDRESS_TYPE_VALUE);
         }
 
-        $xmlAttr = $xmlDoc->createAttribute('type');
+        $xmlAttr            = $xmlDoc->createAttribute('type');
         $xmlAttr->nodeValue = $this->type;
         $addrElem->appendChild($xmlAttr);
 
@@ -207,19 +215,19 @@ class Address
     public function toArray()
     {
         return [
-            'ppiFirstName' => $this->firstName,
-            'ppiLastName' => $this->lastName,
-            'ppiCountry' => $this->country,
-            'ppiCounty' => $this->county,
-            'ppiCity' => $this->city,
-            'ppiPostalCode' => $this->zipCode,
-            'ppiAddress' => $this->address,
-            'ppiEmail' => $this->email,
-            'ppiPhone' => $this->mobilePhone,
-            'ppiBank' => $this->bank,
-            'ppiIban' => $this->iban,
-            'ppiFiscalNumber' => $this->fiscalNumber,
-            'ppiIdentityNumber' => $this->identityNumber
+            'ppiFirstName'      => $this->firstName,
+            'ppiLastName'       => $this->lastName,
+            'ppiCountry'        => $this->country,
+            'ppiCounty'         => $this->county,
+            'ppiCity'           => $this->city,
+            'ppiPostalCode'     => $this->zipCode,
+            'ppiAddress'        => $this->address,
+            'ppiEmail'          => $this->email,
+            'ppiPhone'          => $this->mobilePhone,
+            'ppiBank'           => $this->bank,
+            'ppiIban'           => $this->iban,
+            'ppiFiscalNumber'   => $this->fiscalNumber,
+            'ppiIdentityNumber' => $this->identityNumber,
         ];
     }
 }

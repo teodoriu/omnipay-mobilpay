@@ -23,7 +23,8 @@
     "omnipay/common": "~3.0",
     "php-http/guzzle6-adapter": "~2",
     "ext-dom": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "ext-soap": "*"
   },
   "require-dev": {
     "omnipay/tests": "~3.0"

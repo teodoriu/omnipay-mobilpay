@@ -4,25 +4,38 @@ namespace Omnipay\MobilPay\Api;
 
 use DOMDocument;
 use DOMNode;
+use Exception;
 
 class Recurrence
 {
-    const ERROR_INVALID_PARAMETER           = 0x11110001;
-    const ERROR_INVALID_INTERVAL_DAY        = 0x11110002;
-    const ERROR_INVALID_PAYMENTS_NO         = 0x11110003;
+    const ERROR_INVALID_PARAMETER = 0x11110001;
+    const ERROR_INVALID_INTERVAL_DAY = 0x11110002;
+    const ERROR_INVALID_PAYMENTS_NO = 0x11110003;
 
     const ERROR_LOAD_FROM_XML_CURRENCY_ATTR_MISSING = 0x31110001;
 
     public $interval_day = null;
     public $payments_no = null;
 
+    /**
+     * Recurrence constructor.
+     *
+     * @param  \DOMNode|null  $elem
+     *
+     * @throws \Exception
+     */
     public function __construct(DOMNode $elem = null)
     {
-        if ($elem != null) {
+        if ($elem !== null) {
             $this->loadFromXml($elem);
         }
     }
 
+    /**
+     * @param  \DOMNode  $elem
+     *
+     * @throws \Exception
+     */
     protected function loadFromXml(DOMNode $elem)
     {
         $attr = $elem->attributes->getNamedItem('interval_day');
@@ -42,7 +55,7 @@ class Recurrence
 
     public function createXmlElement(DOMDocument $xmlDoc)
     {
-        if (!($xmlDoc instanceof DOMDocument)) {
+        if ( ! ($xmlDoc instanceof DOMDocument)) {
             throw new Exception('', self::ERROR_INVALID_PARAMETER);
         }
 

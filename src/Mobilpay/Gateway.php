@@ -3,8 +3,6 @@
 namespace Omnipay\MobilPay;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\MobilPay\Message\PurchaseRequest;
-use Omnipay\MobilPay\Message\CompletePurchaseRequest;
 
 /**
  * MobilPay Gateway
@@ -30,7 +28,7 @@ class Gateway extends AbstractGateway
             'merchantId' => null,
             'publicKey'  => null,
             'testMode'   => false,
-            'recurrence' => false
+            'recurrence' => false,
         ];
     }
 
@@ -43,7 +41,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setMerchantId($value)
@@ -52,7 +51,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setPublicKey($value)
@@ -61,7 +61,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setPrivateKey($value)
@@ -70,7 +71,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setCurrency($value)
@@ -79,7 +81,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setReturnUrl($value)
@@ -88,7 +91,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setConfirmUrl($value)
@@ -105,7 +109,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setRecurrence($value)
@@ -122,7 +127,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setPaymentNo($value)
@@ -139,7 +145,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setIntervalDay($value)
@@ -156,7 +163,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  array $parameters
+     * @param  array  $parameters
+     *
      * @return mixed
      */
     public function setBillingAddress(array $parameters = [])
@@ -173,7 +181,8 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  array $parameters
+     * @param  array  $parameters
+     *
      * @return mixed
      */
     public function setShippingAddress(array $parameters = [])
@@ -182,8 +191,9 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  array $parameters
-     * @return \Omnipay\Common\Message\ResponseInterface|Response
+     * @param  array  $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function purchase(array $parameters = [])
     {
@@ -191,11 +201,32 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param  array $parameters
-     * @return \Omnipay\Common\Message\ResponseInterface|Response
+     * @param  array  $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function completePurchase(array $parameters = [])
     {
-        return $this->createRequest(\Omnipay\MobilPay\Message\CompletePurchaseRequestclass, $parameters);
+        return $this->createRequest(\Omnipay\MobilPay\Message\CompletePurchaseRequest::class, $parameters);
+    }
+
+    public function createLink2Pay(array $parameters = [])
+    {
+        return $this->createRequest(\Omnipay\MobilPay\Message\Link2PayRequest::class, $parameters);
+    }
+
+    public function login(array $parameters = [])
+    {
+        return $this->createRequest(\Omnipay\MobilPay\Message\LoginRequest::class, $parameters);
+    }
+
+    public function capture(array $parameters = [])
+    {
+        return $this->createRequest(\Omnipay\MobilPay\Message\CapureRequest::class, $parameters);
+    }
+
+    public function credit(array $parameters = [])
+    {
+        return $this->createRequest(\Omnipay\MobilPay\Message\CreditRequest::class, $parameters);
     }
 }

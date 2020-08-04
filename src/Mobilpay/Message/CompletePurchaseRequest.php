@@ -17,7 +17,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     private $responseError;
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function getPrivateKey()
@@ -26,7 +27,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setPrivateKey($value)
@@ -35,7 +37,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function getIpnData()
@@ -44,7 +47,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setData($value)
@@ -53,7 +57,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function getIpnEnvKey()
@@ -62,7 +67,8 @@ class CompletePurchaseRequest extends PurchaseRequest
     }
 
     /**
-     * @param  string $value
+     * @param  string  $value
+     *
      * @return mixed
      */
     public function setEnvKey($value)
@@ -74,14 +80,15 @@ class CompletePurchaseRequest extends PurchaseRequest
      * Process IPN request data
      *
      * @return array
+     * @throws \Omnipay\MobilPay\Exception\MissingKeyException
      */
     public function getData()
     {
-        if (! $this->getPrivateKey()) {
+        if ( ! $this->getPrivateKey()) {
             throw new MissingKeyException("Missing private key path parameter");
         }
 
-        $data = [];
+        $data                = [];
         $this->responseError = new stdClass();
 
         $this->responseError->code    = 0;
@@ -105,7 +112,7 @@ class CompletePurchaseRequest extends PurchaseRequest
                     $this->action = $data['objPmNotify']['action'];
                 }
 
-                if (! in_array(
+                if ( ! in_array(
                     $this->action,
                     ['confirmed_pending', 'paid_pending', 'paid', 'confirmed', 'canceled', 'credit']
                 )) {
@@ -113,7 +120,7 @@ class CompletePurchaseRequest extends PurchaseRequest
                     $this->responseError->code    = AbstractRequest::ERROR_CONFIRM_INVALID_ACTION;
                     $this->responseError->message = 'mobilpay_refference_action paramaters is invalid';
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->responseError->type    = AbstractRequest::CONFIRM_ERROR_TYPE_TEMPORARY;
                 $this->responseError->code    = $e->getCode();
                 $this->responseError->message = $e->getMessage();
@@ -130,8 +137,9 @@ class CompletePurchaseRequest extends PurchaseRequest
     /**
      * Build IPN response message
      *
-     * @param  array $data
-     * @return \Omnipay\Common\Message\ResponseInterface|Response
+     * @param  array  $data
+     *
+     * @return \Omnipay\Common\Message\ResponseInterface
      */
     public function sendData($data)
     {

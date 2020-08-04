@@ -9,7 +9,7 @@ use Omnipay\Common\Message\RequestInterface;
 /**
  * MobilPay Purchase Response
  */
-class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+class SoapResponse extends AbstractResponse implements RedirectResponseInterface
 {
     /**
      * @var string

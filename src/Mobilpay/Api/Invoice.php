@@ -11,27 +11,28 @@ namespace Omnipay\MobilPay\Api;
 
 use DOMDocument;
 use DOMNode;
+use Exception;
 
 class Invoice
 {
-    const ERROR_INVALID_PARAMETER            = 0x11110001;
-    const ERROR_INVALID_CURRENCY            = 0x11110002;
-    const ERROR_ITEM_INSERT_INVALID_INDEX    = 0x11110003;
+    const ERROR_INVALID_PARAMETER = 0x11110001;
+    const ERROR_INVALID_CURRENCY = 0x11110002;
+    const ERROR_ITEM_INSERT_INVALID_INDEX = 0x11110003;
 
-    const ERROR_LOAD_FROM_XML_CURRENCY_ATTR_MISSING    = 0x31110001;
+    const ERROR_LOAD_FROM_XML_CURRENCY_ATTR_MISSING = 0x31110001;
 
-    public $currency                = null;
-    public $amount                  = null;
-    public $details                 = null;
-    public $installments            = null;
-    public $selectedInstallments    = null;
+    public $currency = null;
+    public $amount = null;
+    public $details = null;
+    public $installments = null;
+    public $selectedInstallments = null;
 
 
-    protected $billingAddress    = null;
-    protected $shippingAddress   = null;
+    protected $billingAddress = null;
+    protected $shippingAddress = null;
 
-    protected $items            = [];
-    protected $exchangeRates    = [];
+    protected $items = [];
+    protected $exchangeRates = [];
 
     public function __construct(DOMNode $elem = null)
     {
@@ -40,6 +41,11 @@ class Invoice
         }
     }
 
+    /**
+     * @param  \DOMNode  $elem
+     *
+     * @throws \Exception
+     */
     protected function loadFromXml(DOMNode $elem)
     {
         $attr = $elem->attributes->getNamedItem('currency');
@@ -86,7 +92,7 @@ class Invoice
 
     public function createXmlElement(DOMDocument $xmlDoc)
     {
-        if (!($xmlDoc instanceof DOMDocument)) {
+        if ( ! ($xmlDoc instanceof DOMDocument)) {
             throw new Exception('', self::ERROR_INVALID_PARAMETER);
         }
 
@@ -97,7 +103,7 @@ class Invoice
         }
 
         $xmlAttr            = $xmlDoc->createAttribute('currency');
-        $xmlAttr->nodeValue    = $this->currency;
+        $xmlAttr->nodeValue = $this->currency;
         $xmlInvElem->appendChild($xmlAttr);
 
         if ($this->amount != null) {
@@ -119,7 +125,7 @@ class Invoice
         }
 
         if ($this->details != null) {
-            $xmlElem            = $xmlDoc->createElement('details');
+            $xmlElem = $xmlDoc->createElement('details');
             $xmlElem->appendChild($xmlDoc->createCDATASection(urlencode($this->details)));
             $xmlInvElem->appendChild($xmlElem);
         }

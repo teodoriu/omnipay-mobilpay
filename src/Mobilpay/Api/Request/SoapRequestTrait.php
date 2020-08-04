@@ -1,28 +1,23 @@
 <?php
 
-namespace Omnipay\MobilPay\Message;
+namespace Omnipay\MobilPay\Api\Request;
 
-use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\MobilPay\Api\Address;
-use Omnipay\MobilPay\Api\Invoice;
-use Omnipay\MobilPay\Api\Recurrence;
-use Omnipay\MobilPay\Api\Request\Card;
-use Omnipay\MobilPay\Exception\MissingKeyException;
 
 /**
  * MobilPay Purchase Request
  */
-class PurchaseRequest extends AbstractRequest
+trait SoapRequestTrait
 {
     /**
      * @var string
      */
-    protected $liveEndpoint = 'https://secure.mobilpay.ro';
+    protected $liveEndpoint = 'http://sandbox.mobilpay.ro/api/payment/?wsdl';
 
     /**
      * @var string
      */
-    protected $testEndpoint = 'http://sandboxsecure.mobilpay.ro';
+    protected $testEndpoint = 'https://secure.mobilpay.ro/api/payment2/?wsdl';
 
     /**
      * @return string
@@ -112,24 +107,6 @@ class PurchaseRequest extends AbstractRequest
     public function setConfirmUrl($value)
     {
         return $this->setParameter('confirmUrl', $value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCancelUrl()
-    {
-        return $this->getParameter('cancelUrl');
-    }
-
-    /**
-     * @param  string  $value
-     *
-     * @return mixed
-     */
-    public function setCancelUrl($value)
-    {
-        return $this->setParameter('cancelUrl', $value);
     }
 
     /**
@@ -259,73 +236,65 @@ class PurchaseRequest extends AbstractRequest
     /**
      * @return string
      */
-    public function getLanguage()
+    public function getUsername()
     {
-        return $this->getParameter('language');
+        return $this->getParameter('username');
     }
 
     /**
      * @param  string  $value
      */
-    public function setLanguage($value)
+    public function setUsername($value)
     {
-        $this->setParameter('language', $value);
+        $this->setParameter('username', $value);
     }
 
     /**
-     * Build encrypted request data
-     *
-     * @return array
-     * @throws MissingKeyException
-     * @throws \Exception
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @return string
      */
-    public function getData()
+    public function getPassword()
     {
-        $this->validate('amount', 'currency', 'orderId', 'confirmUrl', 'returnUrl', 'details');
+        return $this->getParameter('password');
+    }
 
-        $envKey    = $envData = null;
-        $publicKey = $this->getParameter('publicKey');
+    /**
+     * @param  string  $value
+     */
+    public function setPassword($value)
+    {
+        $this->setParameter('password', $value);
+    }
 
-        if ( ! $publicKey) {
-            throw new MissingKeyException("Missing public key path parameter");
-        }
+    /**
+     * @return string
+     */
+    public function getSessionId()
+    {
+        return $this->getParameter('sessionId');
+    }
 
-        $request             = new Card();
-        $request->signature  = $this->getMerchantId();
-        $request->orderId    = $this->getParameter('orderId');
-        $request->confirmUrl = $this->getParameter('confirmUrl');
-        $request->returnUrl  = $this->getParameter('returnUrl');
-        $request->cancelUrl  = $this->getParameter('cancelUrl');
-        $request->params     = $this->getParameter('params') ?: [];
+    /**
+     * @param  string  $value
+     */
+    public function setSessionId($value)
+    {
+        $this->setParameter('sessionId', $value);
+    }
 
-        if ($this->getParameter('recurrence')) {
-            $request->recurrence               = new Recurrence();
-            $request->recurrence->payments_no  = $this->getParameter('paymentNo');
-            $request->recurrence->interval_day = $this->getParameter('intervalDay');
-        }
+    /**
+     * @return string
+     */
+    public function getSacId()
+    {
+        return $this->getParameter('sacId');
+    }
 
-        $request->invoice           = new Invoice();
-        $request->invoice->currency = $this->getParameter('currency');
-        $request->invoice->amount   = $this->getParameter('amount');
-        $request->invoice->details  = $this->getParameter('details');
-
-        if ($getBillingAddress = $this->getBillingAddress()) {
-            $request->invoice->setBillingAddress($this->makeBillingAddress($getBillingAddress));
-        }
-
-        if ($shippingAddress = $this->getShippingAddress()) {
-            $request->invoice->setShippingAddress($this->makeShippingAddress($shippingAddress));
-        }
-
-        $request->encrypt($this->getParameter('publicKey'));
-
-        $data = [
-            'env_key' => $request->getEnvKey(),
-            'data'    => $request->getEncData(),
-        ];
-
-        return $data;
+    /**
+     * @param  string  $value
+     */
+    public function setSacId($value)
+    {
+        $this->setParameter('sacId', $value);
     }
 
 
@@ -371,18 +340,6 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        $endpoint = $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
-
-        return $this->getLanguage() === null ? $endpoint : $endpoint.'/'.$this->getLanguage();
-    }
-
-    /**
-     * @param  array  $data
-     *
-     * @return \Omnipay\Common\Message\ResponseInterface
-     */
-    public function sendData($data)
-    {
-        return $this->response = new PurchaseResponse($this, $data, $this->getEndpoint());
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 }
