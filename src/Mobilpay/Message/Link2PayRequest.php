@@ -46,7 +46,7 @@ class Link2PayRequest extends AbstractRequest
 
         $order              = new \stdClass();
         $order->id          = $this->getOrderId();
-        $order->description = $this->getDescription();
+        $order->description = $this->getDetails();
         $order->amount      = $total;
         $order->currency    = $this->getCurrency();
         $order->billing     = $this->getBillingAddress();
