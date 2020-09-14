@@ -68,7 +68,7 @@ class Link2PayRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $soap = new \SoapClient('http://sandbox.mobilpay.ro/api/payment/?wsdl', ['cache_wsdl' => WSDL_CACHE_NONE]);
+        $soap = new \SoapClient($this->getEndpoint(), ['cache_wsdl' => WSDL_CACHE_NONE]);
 
         try {
             $this->response = $soap->doPay(['request' => $data]);

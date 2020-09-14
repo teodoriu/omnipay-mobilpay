@@ -12,7 +12,7 @@ trait SoapRequestTrait
     /**
      * @var string
      */
-    protected $liveEndpoint = 'http://sandbox.mobilpay.ro/api/payment/?wsdl';
+    protected $liveEndpoint = 'https://sandbox.mobilpay.ro/api/payment/?wsdl';
 
     /**
      * @var string
