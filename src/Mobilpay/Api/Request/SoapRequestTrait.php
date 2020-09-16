@@ -12,12 +12,12 @@ trait SoapRequestTrait
     /**
      * @var string
      */
-    protected $liveEndpoint = 'https://sandbox.mobilpay.ro/api/payment/?wsdl';
+    protected $liveEndpoint = 'https://secure.mobilpay.ro/api/payment2/?wsdl';
 
     /**
      * @var string
      */
-    protected $testEndpoint = 'https://secure.mobilpay.ro/api/payment2/?wsdl';
+    protected $testEndpoint = 'https://sandbox.mobilpay.ro/api/payment/?wsdl';
 
     /**
      * @return string
@@ -341,5 +341,20 @@ trait SoapRequestTrait
     public function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    public function getSoapClient()
+    {
+        $context = stream_context_create(
+            [
+                'ssl' => [
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
+                    'allow_self_signed' => true,
+                ],
+            ]
+        );
+
+        return new \SoapClient($this->getEndpoint(), ['cache_wsdl' => WSDL_CACHE_NONE, 'stream_context' => $context]);
     }
 }

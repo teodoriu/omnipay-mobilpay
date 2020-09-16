@@ -68,13 +68,11 @@ class Link2PayRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $soap = new \SoapClient($this->getEndpoint(), ['cache_wsdl' => WSDL_CACHE_NONE]);
+        $soap = $this->getSoapClient();
 
         try {
             $this->response = $soap->doPay(['request' => $data]);
-//            if (isset($this->response->doPayResult->errors) && $this->response->errors->code != ERR_CODE_OK) {
-//                throw new \Exception($this->response->code, $this->response->message);
-//            }
+
             return $this->response;
         } catch (\SoapFault $e) {
             throw new \Exception($e->faultstring);//, $e->faultcode, $e);

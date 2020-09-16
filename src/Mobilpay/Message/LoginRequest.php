@@ -48,13 +48,10 @@ class LoginRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $soap = new \SoapClient($this->getEndpoint(), ['cache_wsdl' => WSDL_CACHE_NONE]);
+        $soap = $this->getSoapClient();
 
         try {
             return $this->response = $soap->login(['request' => $data]);
-//            if (isset($response->errors) && $response->errors->code != ERR_CODE_OK) {
-//                throw new \Exception($response->code, $response->message);
-//            }
         } catch (\SoapFault $e) {
             throw new \Exception($e->faultstring);//, $e->faultcode, $e);
         }
