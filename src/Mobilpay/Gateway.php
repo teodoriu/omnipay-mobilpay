@@ -191,6 +191,28 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Gets the test mode of the request from the gateway.
+     *
+     * @return boolean
+     */
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    /**
+     * Sets the test mode of the request.
+     *
+     * @param  boolean  $value  True for test mode on.
+     *
+     * @return $this
+     */
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
+    }
+
+    /**
      * @param  array  $parameters
      *
      * @return \Omnipay\Common\Message\AbstractRequest
