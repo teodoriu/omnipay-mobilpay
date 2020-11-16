@@ -305,6 +305,10 @@ class PurchaseRequest extends AbstractRequest
             $request->recurrence->interval_day = $this->getParameter('intervalDay');
         }
 
+        if ($this->getParameter('token_id ')) {
+            $request->tokenId = $this->getParameter('token_id');
+        }
+
         $request->invoice           = new Invoice();
         $request->invoice->currency = $this->getParameter('currency');
         $request->invoice->amount   = $this->getParameter('amount');

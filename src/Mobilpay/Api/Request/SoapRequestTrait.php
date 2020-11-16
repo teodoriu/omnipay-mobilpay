@@ -17,7 +17,7 @@ trait SoapRequestTrait
     /**
      * @var string
      */
-    protected $testEndpoint = 'https://sandbox.mobilpay.ro/api/payment/?wsdl';
+    protected $testEndpoint = 'https://sandboxsecure.mobilpay.ro/api/payment2/?wsdl';
 
     /**
      * @return string
@@ -295,6 +295,22 @@ trait SoapRequestTrait
     public function setSacId($value)
     {
         $this->setParameter('sacId', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentToken()
+    {
+        return $this->getParameter('paymentToken');
+    }
+
+    /**
+     * @param  string  $value
+     */
+    public function setPaymentToken($value)
+    {
+        $this->setParameter('paymentToken', $value);
     }
 
 

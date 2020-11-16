@@ -237,6 +237,11 @@ class Gateway extends AbstractGateway
         return $this->createRequest(\Omnipay\MobilPay\Message\Link2PayRequest::class, $parameters);
     }
 
+    public function recurrentPayment(array $parameters = [])
+    {
+        return $this->createRequest(\Omnipay\MobilPay\Message\RecurrentPaymentRequest::class, $parameters);
+    }
+    
     public function login(array $parameters = [])
     {
         return $this->createRequest(\Omnipay\MobilPay\Message\LoginRequest::class, $parameters);
